@@ -1,0 +1,118 @@
+information on the steps to format top of add_stock.html page
+
+<!-- When a stock is added in the database it will show up here (from views.py) -->
+<!-- {{ ticker }}<br/> -->    <!-- Prints out the data from the database (pulled from views.py) -->
+
+<!--    Loop through the items in the database pulled from views.py
+{% if ticker %}
+    {% for item in ticker %}
+{% endif %}
+-->
+
+<!--    USED TO PULL ITEMS FROM OUR DATABASE AND SHOW THEM ON THE PAGE, You can see how this was used for the table below
+{% for item in ticker %}
+    {{ item }} | <a href="{% url 'delete' item.id %}">Delete Stock</a></br>  <!- - Pass in the url to the delete path and id - ->      <!- - {{ item.id }}  to see the id of the items we are passing in from the db - ->
+{% endfor %}
+-->
+
+
+
+
+
+python3 -m venv (name virtual environment)
+
+(Activate virtual env)
+source venv/bin/activate
+
+(If you want to exit the virtualenv)
+Deactivate
+
+(go back inside of the virtualenv)
+(install django)
+pip3 install django
+
+(check to see if anything was installed using)
+pip freeze
+
+Django-admin.py startproject (project name)
+
+(check to see if the file was created)
+ls 
+
+cd into directory
+cd stocks
+
+(run project)
+python3 manage.py runserver
+
+(Check to see that the server is running django runs on port 8000 in web browser)
+http://localhost:8000/
+
+install MySQL connector
+pip install mysqlclient
+python -m pip install mysql-connector-python
+
+Go into settings and change the db you are using
+
+(Migrate the db into python file)
+python3 manage.py migrate
+
+
+(if you are using mysqlite instead of mysqldb)
+python manage.py createsuperuser
+username      (name)
+email address (email)
+password       (password)
+
+(Starting an app)
+python3 manage.py startapp (app name)
+
+After creating an app you need to add it to the settings.py file under installed apps
+'quotes',
+
+(every app that is created needs to have a urls.py file 
+if you do not have one create a new file under the name urls.py)
+
+in stocks urls.py file add include to the end of
+from django.urls import path, include 
+
+Now write a path to include the path needed to the app folder, this will allow us to start writing path in our app
+path('', include('quotes.urls')),
+
+Create a templates folder to hold our web pages
+inside create a home.html file
+
+After inside of stocks still create a view inside of views.py
+def home(request):
+    return render(request, 'home.html', {})     #create a function request the page/file we want to render then pass in a dictionary
+
+Now we have to create the url for our page
+from django.urls import path
+from . import views;        # the period stand for this directory
+
+urlpatterns = [
+    path('', views.home, name="home" ),      #we are leaving the url space blank for the homepage but if you want you could write specific a url name
+]
+
+
+
+
+Base file is for base page designs that can be shared across all pages  Ex: items Navbar and Footer
+
+To work with database we use the models.py file
+
+After creating your Model or changing Model you want to use the command make migrations
+python3 manage.py makemigrations
+
+now push migration into the db
+python3 manage.py migrate
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}       <!-- Use base.html file -->
+{% block content %}
+
+<h1>Delete Stock</h1>
+
+{% if ticker %} <!-- Error handling  -->
+
+    {% for item in ticker %}
+        {{ item }} | <a href="{% url 'delete' item.id %}" class="btn btn-sm btn-primary">Delete Stock</a></br><br/>  <!-- Pass in the url to the delete path and id - ->      <!- - {{ item.id }}  to see the id of the items we are passing in from the db -->
+    {% endfor %}
+
+{% else %}
+    You do not have any stocks...
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends 'base.html' %}       <!-- Use base.html file -->
+{% block content %}
+
+<h1>Add Stock...</h1>
+<br/>
+
+<!-- Give the form an action which points it to a specific page -->
+<form action="{% url 'add_stock' %}" class="form-inline my-2 my-lg-0" method="POST" >
+    {% csrf_token %} <!-- cross sight reference forgery keeps hackers from hijacking forms must have -->
+    <input class="form-control mr-sm-2" type="search" placeholder="Add To Portfolio" aria-label="Search" name="ticker">  <!-- Named the input ticker so we can reference it in the views.py file -->
+    <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Add Stock</button>
+</form>
+<br/>
+<!-- When a stock is added in the database it will show up here (from views.py) -->
+<!-- {{ ticker }}<br/> -->    <!-- Prints out the data from the database (pulled from views.py) -->
+
+<!--    USED TO PULL ITEMS FROM OUR DATABASE AND SHOW THEM ON THE PAGE, You can see how this was used for the table below
+{% for item in ticker %}
+    {{ item }} | <a href="{% url 'delete' item.id %}">Delete Stock</a></br>  <!- - Pass in the url to the delete path and id - ->      <!- - {{ item.id }}  to see the id of the items we are passing in from the db - ->
+{% endfor %}
+-->
+
+
+<!-- For this table to work, Connect database to the API so every item we have will print all needed info -->
+<table class="table table-striped table-bordered table-hover">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Company Name</th>
+      <th scope="col">Price</th>
+      <th scope="col">Previous Close</th>
+      <th scope="col">Market Cap</th>
+      <th scope="col">YTD Change</th>
+      <th scope="col">52WK High</th>
+      <th scope="col">52WK Low</th>
+    </tr>
+  </thead>
+  <tbody>
+
+{% if ticker %}
+    {% for list_item in output %}
+
+        <tr>
+            <th scope="row">{{ list_item.companyName }}</th>     
+            <td>${{ list_item.latestPrice }}</td>
+            <td>$: {{ list_item.previousClose }}</td>
+            <td>$: {{ list_item.marketCap }}</td>
+            <td>: {{ list_item.ytdChange }}</td>
+            <td>$: {{ list_item.week52High }}</td>
+            <td>$: {{ list_item.week52Low }}</td>
+        </tr>
+
+    {% endfor %}
+    </tbody>
+</table>
+
+{% endif %}
+
+<br/><br/>
+
+{% if ticker %} <!-- Error handling  -->
+
+    {% for item in ticker %}
+        {{ item }} | <a href="{% url 'delete' item.id %}" class="btn btn-sm btn-primary">Delete Stock</a> &nbsp &nbsp &nbsp &nbsp   <!-- Pass in the url to the delete path and id - ->      <!- - {{ item.id }}  to see the id of the items we are passing in from the db -->
+    {% endfor %}
+
+{% else %}
+    You do not have any stocks...
+{% endif %}
+
+<!-- Connecting database items with API key -->
+<!-- {{ output }}        <!- - Check to see if the output from views has been passed through - -> -->
+
+<!-- For loop through every item inside of the database
+{% for list_item in output %}       <!- - Loop through each item that was passed in from views - ->
+    {{ list_item.companyName }}<br/><br/>
+    {{ list_item }}<br/><br/>
+{% endfor %}
+-->
+
+
+
+{% endblock %}
