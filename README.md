@@ -1,0 +1,1 @@
+# Django_MySQL_Stock_Add_Del_Get
